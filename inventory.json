@@ -1,0 +1,6 @@
+[{"eircode":"D00 0000","type":"TV","brand":"Samsung","model":"123-123-1234",
+"serial":"1234-1234-1234","purchase":"2026-03-26","warranty":"2026-04-11"},
+{"eircode":"D00 0000","type":"Fridge","brand":"tefal","model":"234-234-2345",
+"serial":"2345-2345-2345","purchase":"2026-03-02","warranty":"2026-03-29"},
+{"eircode":"D00 0000","type":"Fridge","brand":"tefal","model":"234-234-2345",
+"serial":"2345-2345-2345","purchase":"2026-03-25","warranty":"2026-02-02"}]

@@ -32,7 +32,7 @@ export default function Home() {
 
         <div style={{ marginBottom: "20px" }}>
           <Link
-            href="/part-b"
+            href="pages/part-b"
             style={{
               display: "inline-block",
               padding: "12px 24px",
@@ -47,7 +47,7 @@ export default function Home() {
 
         <div>
           <Link
-            href="/part-c"
+            href="pages/part-c"
             style={{
               display: "inline-block",
               padding: "12px 24px",

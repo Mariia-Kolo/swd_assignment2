@@ -1,22 +1,49 @@
+//registre
+
 "use client";
 import { Grey_Qo } from "next/font/google";
 import { useState } from "react";
 
 export default function PartB() {
 
-  const [form, setForm] = useState({});
-  const [message, setMessage] = useState("");
+  const [form, setForm] = useState({
+    firstName:"",
+    lastName:"",
+    address:"",
+    mobile:"",
+    email:"",
+    eircode:"",
+    type:"Fridge",
+    brand:"",
+    model:"",
+    serial:"",
+    purchaseDate:"",
+    warranty:"",
+    cost:""
+  });
+  const handleChange=(e)=>{
+    setForm({...form,[e.target.name]:e.target.value});
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("/api/register", {
+    const res=await fetch("/api/add", {
       method: "POST",
+      headers:{"Content-Type":"application/json"},
       body: JSON.stringify(form)
     });
 
-    const data = await res.json();
-    setMessage(data.message);
+
+    if (!res.ok) {
+      const err = await res.json();
+      alert(err.message);
+      return;
+    }else{
+      const data = await res.json();
+      alert(data.message);
+    }
+
   };
 
   return (
@@ -24,7 +51,10 @@ export default function PartB() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      height: "100vh"
+      height: "100vh",
+      marginTop: "130px",
+      marginBottom: "130px"
+
     }}>
 
       <form
@@ -33,66 +63,123 @@ export default function PartB() {
           padding: "20px",
           border: "1px solid #ccc",
           borderRadius: "10px",
-          width: "300px",
+          width: "500px",
           textAlign: "center"
         }}
       >
 
-        <h2>Inventory Form</h2>
+        <h2>Register Appliance</h2>
+        
+        <input
+          name="firstName"
+          placeholder="First Name"
+          style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+          onChange={handleChange}
+          required
+        />
 
         <input
+          name="lastName"
+          placeholder="Last Name"
+          style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          name="address"
+          placeholder="Address"
+          style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          name="mobile"
+          placeholder="Mobile"
+          style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          name="email"
+          placeholder="Email"
+          style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+          onChange={handleChange}
+          required
+        />
+
+        <input
+          name="eircode"
           placeholder="Eircode"
           style={{ margin: "10px 0", width: "100%", padding: "8px" }}
-          onChange={(e)=>setForm({...form,eircode:e.target.value})}
+          onChange={handleChange}
+          required
         />
 
         <select
+          name="type"
           style={{ margin: "10px 0", width: "100%", padding: "8px" }}
-          onChange={(e)=>setForm({...form,type:e.target.value})}
+          onChange={handleChange}
         >
-          <option value="">Select Type</option>
           <option>Fridge</option>
           <option>Washing Machine</option>
           <option>TV</option>
         </select>
 
         <input
+          name="brand"
           placeholder="Brand"
           style={{ margin: "10px 0", width: "100%", padding: "8px" }}
-          onChange={(e)=>setForm({...form,brand:e.target.value})}
+          onChange={handleChange}
+          required
         />
 
         <input
+          name="model"
           placeholder="Model (123-123-1234)"
           style={{ margin: "10px 0", width: "100%", padding: "8px" }}
-          onChange={(e)=>setForm({...form,model:e.target.value})}
+          onChange={handleChange}
+          required
         />
 
         <input
+          name="serial"
           placeholder="Serial (1234-1234-1234)"
           style={{ margin: "10px 0", width: "100%", padding: "8px" }}
-          onChange={(e)=>setForm({...form,serial:e.target.value})}
-        />
+          onChange={handleChange}
+          required
+          />
 
-        <p style={{ margin: "10px 0 0 0", width: "45%" }}>Purchase date:</p>
+        <p style={{display: "flex", justifyContent: "left"}}>Purchase date:</p>
         <input
+          name="purchaseDate"
           type="date"
           style={{ margin: "10px 0", width: "100%", padding: "8px" }}
-          onChange={(e)=>setForm({...form,purchase:e.target.value})}
-        />
+          onChange={handleChange}
+          require="true"
+          />
 
-        <p style={{ margin: "10px 0 0 0", width: "70%"}}>Warranty expiration date:</p>
+        <p style={{display: "flex", justifyContent: "left"}}>Warranty expiration date:</p>
         <input
+          name="warranty"
           type="date"
           style={{ margin: "10px 0", width: "100%", padding: "8px" }}
-          onChange={(e)=>setForm({...form,warranty:e.target.value})}
+          onChange={handleChange}
+          require="true"
+        />
+
+        <input
+          name="cost"
+          placeholder="Cost"
+          style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+          onChange={handleChange}
         />
 
         <button style={{ marginTop: "10px", padding: "10px", width: "100%"}}>
-          Add to Inventory
+          Submit
         </button>
-
-        <p style={{ marginTop: "10px" }}>{message}</p>
 
       </form>
     </div>

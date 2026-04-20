@@ -11,5 +11,5 @@ export async function PUT(req) {
     [data.brand, data.model, data.serial]
   );
 
-  return Response.json({ message: "Updated" });
+  return Response.json({ message: "Updated successfully" });
 }

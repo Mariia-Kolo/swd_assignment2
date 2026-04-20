@@ -1,13 +1,12 @@
-
-
 "use client";
+
 import { useState } from "react";
 
 export default function PartC() {
   const [serial, setSerial] = useState("");
   const [result, setResult] = useState(null);
   const [brand, setBrand] = useState("");
-  const [model, setModel] = useState("");  // This maps to ModelNumber in DB
+  const [model, setModel] = useState("");
 
   const handleSearch = async () => {
     if (!serial.trim()) {
@@ -33,10 +32,9 @@ export default function PartC() {
 
       alert(data.message);
       
-      // Set the result and form fields from the response
       setResult(data);
       setBrand(data.brand || "");
-      setModel(data.model || "");  // model contains ModelNumber from DB
+      setModel(data.model || "");
       
     } catch (error) {
       console.error("Search error:", error);
@@ -55,9 +53,9 @@ export default function PartC() {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          serial: serial,  // SerialNumber
-          brand: brand,    // Brand
-          model: model     // ModelNumber
+          serial: serial,
+          brand: brand,
+          model: model
         })
       });
 
@@ -103,7 +101,6 @@ export default function PartC() {
 
       alert(data.message || "Deleted successfully");
       
-      // Reset all form fields
       setResult(null);
       setSerial("");
       setBrand("");
@@ -120,134 +117,71 @@ export default function PartC() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      minHeight: "100vh",
-      padding: "20px",
-      backgroundColor: "#f5f5f5"
+      height: "100vh",
+      marginTop: "130px",
+      marginBottom: "130px"
     }}>
       <div
         style={{
-          padding: "30px",
-          border: "1px solid #ddd",
+          padding: "20px",
+          border: "1px solid #ccc",
           borderRadius: "10px",
-          width: "100%",
-          maxWidth: "450px",
-          textAlign: "center",
-          backgroundColor: "white",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+          width: "500px",
+          textAlign: "center"
         }}
       >
-        <h2 style={{ marginBottom: "20px", color: "#333" }}>Appliance Management</h2>
+        <h2>Validate/Update/Delete Appliance</h2>
 
         <input
           placeholder="Serial Number"
           value={serial}
-          style={{ 
-            margin: "10px 0", 
-            width: "100%", 
-            padding: "10px",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            fontSize: "14px"
-          }}
+          style={{ margin: "10px 0", width: "100%", padding: "8px" }}
           onChange={(e) => setSerial(e.target.value)}
         />
 
         <button
           onClick={handleSearch}
-          style={{ 
-            marginTop: "10px", 
-            padding: "10px", 
-            width: "100%",
-            backgroundColor: "#0070f3",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontSize: "16px",
-            fontWeight: "bold"
-          }}
+          style={{ marginTop: "10px", padding: "10px", width: "100%" }}
         >
-          Search Appliance
+          Search
         </button>
 
         {result && (
-          <div style={{ marginTop: "25px", borderTop: "1px solid #eee", paddingTop: "20px" }}>
-            <h3 style={{ marginBottom: "15px", color: "#0070f3" }}>Appliance Details</h3>
-            
-            <div>
-              <label style={{ display: "block", marginTop: "10px", fontWeight: "bold", textAlign: "left" }}>
-                Brand
-              </label>
-              <input
-                value={brand}
-                style={{ 
-                  margin: "5px 0 15px 0", 
-                  width: "100%", 
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
-                onChange={(e) => setBrand(e.target.value)}
-              />
-            </div>
+          <div style={{ marginTop: "20px" }}>
+            <p style={{ display: "flex", justifyContent: "left", marginBottom: "5px" }}>Brand:</p>
+            <input
+              value={brand}
+              style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+              onChange={(e) => setBrand(e.target.value)}
+              placeholder="Brand"
+            />
 
-            <div>
-              <label style={{ display: "block", marginTop: "10px", fontWeight: "bold", textAlign: "left" }}>
-                Model Number
-              </label>
-              <input
-                value={model}
-                style={{ 
-                  margin: "5px 0 15px 0", 
-                  width: "100%", 
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px"
-                }}
-                onChange={(e) => setModel(e.target.value)}
-              />
-            </div>
+            <p style={{ display: "flex", justifyContent: "left", marginBottom: "5px" }}>Model Number:</p>
+            <input
+              value={model}
+              style={{ margin: "10px 0", width: "100%", padding: "8px" }}
+              onChange={(e) => setModel(e.target.value)}
+              placeholder="Model Number"
+            />
 
             {result.applianceType && (
-              <div style={{ textAlign: "left", marginTop: "10px", color: "#666" }}>
-                <small>Type: {result.applianceType}</small>
-              </div>
+              <p style={{ display: "flex", justifyContent: "left", fontSize: "14px", color: "#666", marginTop: "10px" }}>
+                Type: {result.applianceType}
+              </p>
             )}
 
             <button
               onClick={handleUpdate}
-              style={{ 
-                marginTop: "15px", 
-                padding: "10px", 
-                width: "100%",
-                backgroundColor: "#28a745",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: "bold"
-              }}
+              style={{ marginTop: "10px", padding: "10px", width: "100%" }}
             >
-              Update Appliance
+              Update
             </button>
 
             <button
               onClick={handleDelete}
-              style={{ 
-                marginTop: "10px", 
-                padding: "10px", 
-                width: "100%",
-                backgroundColor: "#dc3545",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: "bold"
-              }}
+              style={{ marginTop: "10px", padding: "10px", width: "100%" }}
             >
-              Delete Appliance
+              Delete
             </button>
           </div>
         )}

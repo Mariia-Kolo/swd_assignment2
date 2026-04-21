@@ -5,7 +5,7 @@ export async function POST(req) {
   try{
     const data = await req.json();
 
-    // Insert user
+    //insert user
     const [userResult] = await db.execute(
       `INSERT INTO User (FirstName, LastName, Address, Mobile, Email, Eircode)
       VALUES (?, ?, ?, ?, ?, ?)`,
@@ -21,7 +21,7 @@ export async function POST(req) {
 
     const userId = userResult.insertId;
 
-    // Insert appliance
+    //insert appliance
     await db.execute(
       `INSERT INTO Appliance (ApplianceType, Brand, ModelNumber, SerialNumber, PurchaseDate, WarrantyExpiration, Cost, UserID)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -37,11 +37,13 @@ export async function POST(req) {
       ]
     );
 
+    //set messages to pop
     return NextResponse.json(
       { message: "Appliance added successfully" },
       { status: 201 }
    );
 
+   //error case
   } catch (error) {
     console.error(error);
 

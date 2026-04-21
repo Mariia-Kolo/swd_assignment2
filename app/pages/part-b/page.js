@@ -6,7 +6,9 @@ import { useState } from "react";
 
 export default function PartB() {
 
+  //store data in fields
   const [form, setForm] = useState({
+    //info fields
     firstName:"",
     lastName:"",
     address:"",
@@ -22,30 +24,38 @@ export default function PartB() {
     cost:""
   });
   const handleChange=(e)=>{
+    //create copy of form state
     setForm({...form,[e.target.name]:e.target.value});
   };
 
   const handleSubmit = async (e) => {
+    //prevent default behaviour
     e.preventDefault();
 
+    //send request to api to add data
     const res=await fetch("/api/add", {
       method: "POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify(form)
     });
 
-
+    //check for errors
     if (!res.ok) {
+      //make api response
       const err = await res.json();
+      //error message
       alert(err.message);
       return;
     }else{
+      //make api response
       const data = await res.json();
+      //success message
       alert(data.message);
     }
 
   };
 
+  //css and UI
   return (
     <div style={{
       display: "flex",

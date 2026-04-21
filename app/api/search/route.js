@@ -4,8 +4,10 @@ import { NextResponse } from "next/server";
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
+    //get serial from web
     const serial = searchParams.get("serial");
 
+    //validate serial
     if (!serial) {
       return NextResponse.json(
         { message: "Serial number is required" },
@@ -13,11 +15,13 @@ export async function GET(req) {
       );
     }
 
+    //selecting needed rows
     const [rows] = await db.execute(
       "SELECT * FROM appliance WHERE SerialNumber = ?",
       [serial]
     );
 
+    //in case not found
     if (rows.length === 0) {
       return NextResponse.json(
         { message: "Appliance not found" },
@@ -25,6 +29,7 @@ export async function GET(req) {
       );
     }
 
+    //values to return if found
     const appliance = rows[0];
     return NextResponse.json({
       message: "Appliance found",
@@ -39,6 +44,7 @@ export async function GET(req) {
       userId: appliance.UserID
     });
     
+    //error case
   } catch (error) {
     console.error("Search error:", error);
     return NextResponse.json(

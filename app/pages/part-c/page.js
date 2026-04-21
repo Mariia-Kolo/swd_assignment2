@@ -1,28 +1,37 @@
+//validate, apdate and delete
 "use client";
 
 import { useState } from "react";
 
 export default function PartC() {
+  //Stores the value entered by the user for search
   const [serial, setSerial] = useState("");
+  //conditionaly display update and delete fields
   const [result, setResult] = useState(null);
+  //display current values
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
 
   const handleSearch = async () => {
+    //validate field is not empty
     if (!serial.trim()) {
       alert("Please enter a serial number");
       return;
     }
 
+    //requestt api search
     try {
       const res = await fetch(`/api/search?serial=${encodeURIComponent(serial)}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
       });
 
+      //response from api
       const data = await res.json();
 
+      //check if response is not error
       if (!res.ok) {
+        //display error message
         alert(data.message || "Search failed");
         setResult(null);
         setBrand("");
@@ -30,18 +39,22 @@ export default function PartC() {
         return;
       }
 
+      //display success message
       alert(data.message);
       
+      //update state
       setResult(data);
       setBrand(data.brand || "");
       setModel(data.model || "");
       
+      //handle other errors
     } catch (error) {
       console.error("Search error:", error);
       alert("An error occurred during search");
     }
   };
 
+  //handle updadte 
   const handleUpdate = async () => {
     if (!serial) {
       alert("No appliance selected to update");
@@ -49,6 +62,7 @@ export default function PartC() {
     }
 
     try {
+      //send api request to nupdate data
       const res = await fetch("/api/update", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -59,59 +73,73 @@ export default function PartC() {
         })
       });
 
+      //get api's response
       const data = await res.json();
 
+      //error message
       if (!res.ok) {
         alert(data.message || "Update failed");
         return;
       }
 
+      //success message
       alert(data.message || "Updated successfully");
       
       // Refresh the data after update
       await handleSearch();
       
+      //handle possible errors
     } catch (error) {
       console.error("Update error:", error);
       alert("An error occurred during update");
     }
   };
 
+  //send api request to delete data
   const handleDelete = async () => {
+    //in case nothing is entered
     if (!serial) {
       alert("No appliance selected to delete");
       return;
     }
 
+    //double verification
     if (!confirm(`Are you sure you want to delete appliance with serial number: ${serial}?`)) {
       return;
     }
 
+    //delete data from api
     try {
       const res = await fetch(`/api/delete?serial=${encodeURIComponent(serial)}`, {
         method: "DELETE"
       });
 
+      //get api's response
       const data = await res.json();
 
+      //error message
       if (!res.ok) {
         alert(data.message || "Delete failed");
         return;
       }
 
+      //success message
       alert(data.message || "Deleted successfully");
       
+      //clear fields
       setResult(null);
       setSerial("");
       setBrand("");
       setModel("");
       
+      //handle possible errors
     } catch (error) {
       console.error("Delete error:", error);
       alert("An error occurred during deletion");
     }
   };
 
+  //css and UI
   return (
     <div style={{
       display: "flex",
